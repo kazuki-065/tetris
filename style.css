@@ -1,0 +1,439 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Orbitron', monospace;
+    background: 
+        /* 夜空 */
+        linear-gradient(180deg, #000428 0%, #004e92 15%, #001122 30%),
+        /* スタジアムの構造 */
+        radial-gradient(ellipse at 50% 100%, #2d5016 0%, #0f4c3a 40%, transparent 70%);
+    color: #ffffff;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100vh;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        /* スタジアムライト */
+        radial-gradient(ellipse at 20% 5%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.4) 10%, transparent 20%),
+        radial-gradient(ellipse at 80% 5%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.4) 10%, transparent 20%),
+        radial-gradient(ellipse at 50% 8%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.3) 8%, transparent 15%),
+        /* 観客席 */
+        linear-gradient(180deg, rgba(100, 100, 100, 0.6) 0%, rgba(100, 100, 100, 0.3) 15%, transparent 25%),
+        /* 外野フェンス */
+        linear-gradient(90deg, transparent 0%, rgba(139, 69, 19, 0.8) 10%, rgba(139, 69, 19, 0.8) 90%, transparent 100%) 0% 60% / 100% 8%,
+        /* フィールドの芝生 */
+        radial-gradient(ellipse at 50% 85%, rgba(45, 80, 22, 0.8) 0%, rgba(45, 80, 22, 0.4) 50%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* 詳細な野球場の背景 */
+.game-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        /* 観客席の詳細 */
+        repeating-linear-gradient(
+            180deg,
+            rgba(80, 80, 80, 0.4) 0%,
+            rgba(80, 80, 80, 0.4) 2%,
+            rgba(60, 60, 60, 0.3) 2%,
+            rgba(60, 60, 60, 0.3) 4%
+        ) 0% 0% / 100% 20%,
+        /* スコアボード */
+        linear-gradient(90deg, transparent 70%, rgba(0, 50, 0, 0.8) 75%, rgba(0, 80, 0, 0.8) 85%, transparent 90%) 0% 5% / 100% 15%,
+        /* ダイヤモンド */
+        conic-gradient(from 45deg at 50% 90%, 
+            rgba(139, 69, 19, 0.6) 0deg, 
+            rgba(139, 69, 19, 0.6) 90deg, 
+            rgba(45, 80, 22, 0.6) 90deg, 
+            rgba(45, 80, 22, 0.6) 180deg,
+            rgba(139, 69, 19, 0.6) 180deg,
+            rgba(139, 69, 19, 0.6) 270deg,
+            rgba(45, 80, 22, 0.6) 270deg,
+            rgba(45, 80, 22, 0.6) 360deg
+        ) 0% 70% / 100% 30%;
+    z-index: -2;
+    pointer-events: none;
+}
+
+/* ピッチャーマウンドとベースライン */
+.game-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30%;
+    background: 
+        /* ホームベース */
+        radial-gradient(circle at 50% 95%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 1%, transparent 2%),
+        /* ピッチャーマウンド */
+        radial-gradient(ellipse at 50% 70%, rgba(139, 69, 19, 0.8) 0%, rgba(139, 69, 19, 0.4) 15%, transparent 25%),
+        /* ベースライン */
+        linear-gradient(135deg, transparent 48%, rgba(255, 255, 255, 0.6) 49%, rgba(255, 255, 255, 0.6) 51%, transparent 52%),
+        linear-gradient(45deg, transparent 48%, rgba(255, 255, 255, 0.6) 49%, rgba(255, 255, 255, 0.6) 51%, transparent 52%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.game-title {
+    font-size: 4rem;
+    font-weight: 900;
+    background: linear-gradient(45deg, #ffffff, #ffff00, #ff6b35);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 3s ease-in-out infinite;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.game-stats {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 25px;
+    background: 
+        linear-gradient(145deg, rgba(0, 50, 0, 0.8), rgba(0, 80, 0, 0.6)),
+        rgba(255, 255, 255, 0.1);
+    border: 3px solid #ffff00;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 8px 32px rgba(255, 255, 0, 0.4),
+        inset 0 2px 10px rgba(255, 255, 255, 0.2);
+    position: relative;
+}
+
+/* スコアボード風の装飾 - 簡略化 */
+.stat-item::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background: #ffff00;
+    border-radius: 15px;
+    z-index: -1;
+}
+
+@keyframes scoreboardGlow {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffff00;
+    text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
+}
+
+.game-main {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.game-board-container {
+    position: relative;
+    border: 3px solid #8b4513;
+    border-radius: 15px;
+    background: rgba(45, 80, 22, 0.9);
+    box-shadow: 
+        0 0 30px rgba(139, 69, 19, 0.8),
+        inset 0 0 30px rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+#gameBoard {
+    display: block;
+    background: linear-gradient(180deg, rgba(45, 80, 22, 0.9) 0%, rgba(139, 69, 19, 0.3) 100%);
+}
+
+.game-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.game-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.overlay-content {
+    text-align: center;
+    padding: 40px;
+    border: 2px solid #ff00ff;
+    border-radius: 15px;
+    background: rgba(255, 0, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+#overlayTitle {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #ff00ff;
+    text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+    margin-bottom: 15px;
+}
+
+#overlayMessage {
+    font-size: 1.2rem;
+    color: #ffffff;
+    opacity: 0.8;
+}
+
+.game-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 250px;
+}
+
+.next-piece-container,
+.controls-container {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.3);
+}
+
+.next-piece-container h3,
+.controls-container h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+#nextPiece {
+    display: block;
+    margin: 0 auto;
+    background: rgba(45, 80, 22, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+}
+
+.control-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 8px 0;
+}
+
+.key {
+    background: linear-gradient(145deg, #8b4513, #654321);
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.action {
+    color: #ffffff;
+    font-size: 0.9rem;
+}
+
+.game-button {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    text-transform: uppercase;
+}
+
+.game-button:hover {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.game-button:active {
+    transform: translateY(0);
+}
+
+.game-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.particle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    animation: particleFloat 3s linear infinite;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.line-clear-effect {
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.8) 20%, 
+        rgba(0, 255, 255, 0.9) 50%, 
+        rgba(255, 255, 255, 0.8) 80%, 
+        transparent 100%);
+    animation: lineClearFlash 0.5s ease-in-out;
+    z-index: 10;
+}
+
+@keyframes lineClearFlash {
+    0% { opacity: 0; transform: scaleX(0); }
+    50% { opacity: 1; transform: scaleX(1); }
+    100% { opacity: 0; transform: scaleX(0); }
+}
+
+.piece-drop-effect {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #ffff00;
+    border-radius: 50%;
+    animation: dropRipple 0.6s ease-out;
+    pointer-events: none;
+}
+
+@keyframes dropRipple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .game-main {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .game-sidebar {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .game-title {
+        font-size: 2.5rem;
+    }
+    
+    .game-stats {
+        gap: 20px;
+    }
+    
+    .stat-item {
+        padding: 10px 15px;
+    }
+}

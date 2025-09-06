@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baseball Tetris - 野球テトリス</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1 class="game-title">⚾ BASEBALL TETRIS ⚾</h1>
+            <div class="game-stats">
+                <div class="stat-item">
+                    <span class="stat-label">得点</span>
+                    <span class="stat-value" id="score">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">イニング</span>
+                    <span class="stat-value" id="level">1</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">ホームラン</span>
+                    <span class="stat-value" id="lines">0</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-main">
+            <div class="game-board-container">
+                <canvas id="gameBoard" width="300" height="600"></canvas>
+                <div class="game-overlay" id="gameOverlay">
+                    <div class="overlay-content">
+                        <h2 id="overlayTitle">GAME OVER</h2>
+                        <p id="overlayMessage">スペースキーでリスタート</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-sidebar">
+                <div class="next-piece-container">
+                    <h3>次のバッター</h3>
+                    <canvas id="nextPiece" width="120" height="120"></canvas>
+                </div>
+                
+                <div class="controls-container">
+                    <h3>操作方法</h3>
+                    <div class="control-item">
+                        <span class="key">←→</span>
+                        <span class="action">移動</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">↓</span>
+                        <span class="action">高速落下</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">↑</span>
+                        <span class="action">回転</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">SPACE</span>
+                        <span class="action">一時停止</span>
+                    </div>
+                </div>
+                
+                <button id="startButton" class="game-button">プレイボール！</button>
+                <button id="pauseButton" class="game-button">タイムアウト</button>
+                <button id="resetButton" class="game-button">新しい試合</button>
+            </div>
+        </div>
+        
+        <div class="particle-container" id="particleContainer"></div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
